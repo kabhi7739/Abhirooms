@@ -1,7 +1,11 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Mongo_url = "mongodb://127.0.0.1:27017/wanderlust";
+// const Mongo_url = "mongodb://127.0.0.1:27017/wanderlust";const dbUrl = "aapka_naya_cloud_link_yahan_daalo";
+const dbUrl = "mongodb+srv://kabhisheksingh04102000_db_user:Cxq1VvYnmTwD4Xh5@cluster0.t94ouyh.mongodb.net/wanderlust?appName=Cluster0";
+mongoose.connect(dbUrl)
+  .then(() => console.log("Connected to Cloud DB!"))
+  .catch(err => console.log(err));
 const Listing = require("./models/listing.js");
 const path = require("path");
 const methodOverride = require("method-override");
@@ -56,7 +60,7 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(Mongo_url);
+  await mongoose.connect(dbUrl);
 }
 
 app.set("view engine", "ejs");
@@ -64,7 +68,7 @@ app.set("views", path.join(__dirname, "views"));
 
 // Root Route
 app.get("/", (req, res) => {
-  res.send("hi i am your root");
+  res.redirect("/listings");
 });
 
 // New Route (Form dikhane ke liye)
