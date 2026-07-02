@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand logo" href="/"><i class="fa-regular fa-compass" style="color: rgb(108, 154, 191);"></i> AbhiRooms<span>.com</span></a>
+    
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNavAltMarkup" 
+      aria-controls="navbarNavAltMarkup"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <!-- Left side links -->
+      <div class="navbar-nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/listings">All Listings</a>
+        <a class="nav-link" href="/listings/new">Add new Listing</a>
+      </div>
+      
+      <!-- Right side dynamic links (ms-auto isse right side khiska dega) -->
+      <div class="navbar-nav ms-auto">
+        <!-- Agar user logged in NAHI hai -->
+        <% if(!currUser) { %>
+            <a class="nav-link" href="/signup"><b>Sign up</b></a>
+            <a class="nav-link" href="/login"><b>Log in</b></a>
+        <% } %>
+
+        <!-- Agar user logged in HAI -->
+        <% if(currUser) { %>
+            <a class="nav-link" href="/logout"><b>Log out</b></a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>

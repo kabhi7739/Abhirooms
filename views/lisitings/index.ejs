@@ -1,0 +1,59 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+    <div class="container mt-3">
+        <h3 class="mb-4">All Listings</h3>
+        
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-4">
+            <% for(let listing of allListing) { %>
+                <div class="col">
+                    <div class="card h-100 listing-card shadow-sm" style="position: relative;">
+                        
+                        <a href="/listings/<%= listing._id %>">
+                            <img src="<%= listing.image && listing.image.url ? listing.image.url : 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?v=1' %>" 
+                                    class="card-img-top" 
+                                    alt="listing_image" 
+                                    style="height: 15rem; object-fit: cover;" />
+                        </a>
+
+                        <div style="position: absolute; top: 15px; right: 15px; z-index: 10;">
+                            <button type="button" class="btn wishlist-btn" onclick="toggleHeart(this)" style="background: none; border: none; padding: 0;">
+                                <i class="fa-regular fa-heart heart-icon" style="color: white; font-size: 1.5rem; text-shadow: 0 0 5px rgba(0,0,0,0.7);"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title"><b><%= listing.title %></b></h5>
+                            <p class="card-text text-muted" style="font-size: 0.9rem;">
+                                <%= listing.description %>
+                            </p>
+                            <p class="card-text">
+                                <b>&#8377; <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %></b> / night
+                            </p>
+                            
+                            <a href="/listings/<%= listing._id %>" class="btn btn-dark btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+<script>
+function toggleHeart(element) {
+    let icon = element.querySelector('.heart-icon');
+    
+    // Toggle class or inline styles for instant color change
+    icon.classList.toggle('heart-liked');
+    
+    if (icon.classList.contains('heart-liked')) {
+        icon.classList.remove('fa-regular');
+        icon.classList.add('fa-solid');
+        icon.style.color = "#ff385c"; // Red Color style toggle
+    } else {
+        icon.classList.remove('fa-solid');
+        icon.classList.add('fa-regular');
+        icon.style.color = "white"; // Wapas normal white
+    }
+}
+</script>
+</body>
