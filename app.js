@@ -65,15 +65,22 @@ async function main() {
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
+ // Middleware to check if user is logged in
+const isLoggedIn = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        // Agar user logged in nahi hai
+        return res.redirect("/login"); 
+    }
+    next(); // Agar logged in hai, toh aage badhne do
+};
 // Root Route
 app.get("/", (req, res) => {
   res.redirect("/listings");
 });
 
 // New Route (Form dikhane ke liye)
-app.get("/listings/new", (req, res) => {
-  res.render("lisitings/new.ejs");
+app.get("/listings/new", isLoggedIn, (req, res) => {
+    res.render("lisitings/new.ejs");
 });
 
 // Show Route (Single listing dekhne ke liye - POPULATE ADDED)
@@ -106,7 +113,7 @@ app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
     res.redirect(`/listings/${id.trim()}`);
 }));
 // create route
-app.post("/listings", wrapAsync(async (req, res, next) => {
+app.post("/listings", isLoggedIn ,wrapAsync(async (req, res, next) => {
     let { title, description, price, location, country, image } = req.body.listing;
 
     const newListing = new Listing({ title, description, price, location, country });
