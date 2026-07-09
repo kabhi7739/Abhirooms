@@ -101,7 +101,24 @@
                 <% } %>
               <% } %>
             </p>
-            
+            <div class="contact-section mt-4 p-3 border rounded bg-light">
+    <h5 class="mb-3"><i class="fa-solid fa-address-book text-primary"></i> Interested in this room?</h5>
+    <p class="mb-2"><strong>Owner Number:</strong> +91 <%= listing.contact %></p>
+    
+    <div class="d-flex gap-2">
+        <!-- Direct Mobile Call Button -->
+        <a href="tel:<%= listing.contact %>" class="btn btn-primary">
+            <i class="fa-solid fa-phone"></i> Call Owner
+        </a>
+        
+        <!-- Direct WhatsApp Chat Button with Pre-filled Message -->
+        <a href="https://wa.me/91<%= listing.contact %>?text=Hi,%20I%20am%20interested%20in%20your%20room%20'<%= listing.title %>'%20listed%20on%20AbhiRooms." 
+           target="_blank" 
+           class="btn btn-success">
+            <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+        </a>
+    </div>
+</div>
             <!-- REVIEW DELETE BUTTON FOR OWNER AND ADMIN -->
             <% if(currUser) { %>
               <% if(currUser.username === 'abhiadmin' || (review.author && review.author._id.equals(currUser._id))) { %>

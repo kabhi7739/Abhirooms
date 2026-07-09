@@ -20,6 +20,11 @@ const listingSchema = new Schema({
   },
   price: Number,
   location: String,
+  contact:{
+    type :Number,
+    required:true,
+    match:[/^\d{10}$/, "please enter a valid 10-digit phone number!"]
+  },
   country: String,
   reviews: [
     {
