@@ -1,38 +1,63 @@
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand logo" href="/"><i class="fa-regular fa-compass" style="color: rgb(108, 154, 191);"></i> AbhiRooms<span>.com</span></a>
+<nav class="navbar bg-white border-bottom sticky-top py-2">
+  <div class="container-fluid px-md-4 d-flex align-items-center justify-content-between">
     
-    <button 
-      class="navbar-toggler" 
-      type="button" 
-      data-bs-toggle="collapse" 
-      data-bs-target="#navbarNavAltMarkup" 
-      aria-controls="navbarNavAltMarkup"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!-- Logo (Hamesha left me rahega) -->
+    <a class="navbar-brand logo d-flex align-items-center m-0" href="/">
+      <i class="fa-regular fa-compass me-2" style="color: rgb(108, 154, 191); font-size: 1.4rem;"></i> AbhiRooms<span>.com</span>
+    </a>
     
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <!-- Left side links -->
-      <div class="navbar-nav">
-        <a class="nav-link" href="/">Home</a>
-        <a class="nav-link" href="/listings">All Listings</a>
-        <a class="nav-link" href="/listings/new">Add new Listing</a>
-      </div>
-      
-      <!-- Right side dynamic links (ms-auto isse right side khiska dega) -->
-      <div class="navbar-nav ms-auto">
-        <!-- Agar user logged in NAHI hai -->
+    <!-- Center/Desktop Links: Yeh sirf bade computer screen par dikhenge, mobile par chhup jayenge (d-none d-md-flex) -->
+    <div class="d-none d-md-flex align-items-center gap-3">
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/listings">All Listings</a>
+      <a class="nav-link" href="/listings/new">Add new Listing</a>
+    </div>
+
+    <!-- Right Side Profile Dropdown (Desktop aur Mobile dono par perfectly side me rahega) -->
+    <div class="dropdown">
+      <button 
+        class="btn btn-white border d-flex align-items-center gap-2 py-2 px-3 shadow-sm" 
+        type="button" 
+        id="profileDropdown" 
+        data-bs-toggle="dropdown" 
+        aria-expanded="false"
+        style="border-radius: 25px; transition: 0.2s;"
+      >
+        <i class="fa-solid fa-bars text-muted" style="font-size: 0.9rem;"></i>
+        
+        <% if(currUser) { %>
+          <!-- User Profile Circle Avatar -->
+          <div style="width: 28px; height: 28px; background-color: #ff385c; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem; text-transform: uppercase;">
+              <%= currUser.username.charAt(0) %>
+          </div>
+        <% } else { %>
+          <!-- Default User Icon -->
+          <i class="fa-solid fa-circle-user text-secondary" style="font-size: 1.4rem;"></i>
+        <% } %>
+      </button>
+
+      <!-- Dropdown Options -->
+      <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 py-2" aria-labelledby="profileDropdown" style="border-radius: 12px; min-width: 200px;">
+        <!-- Mobile Extra Links: Jo sirf mobile par dropdown ke andar dikhenge -->
+        <div class="d-block d-md-none border-bottom pb-2 mb-2">
+          <li><a class="dropdown-item py-2" href="/">Home</a></li>
+          <li><a class="dropdown-item py-2" href="/listings">All Listings</a></li>
+        </div>
+
         <% if(!currUser) { %>
-            <a class="nav-link" href="/signup"><b>Sign up</b></a>
-            <a class="nav-link" href="/login"><b>Log in</b></a>
+            <li><a class="dropdown-item py-2 fw-bold" href="/signup">Sign up</a></li>
+            <li><a class="dropdown-item py-2 text-muted" href="/login">Log in</a></li>
         <% } %>
 
-        <!-- Agar user logged in HAI -->
         <% if(currUser) { %>
-            <a class="nav-link" href="/logout"><b>Log out</b></a>
+            <li><h6 class="dropdown-header text-dark fw-bold border-bottom pb-2">Hi, <%= currUser.username %></h6></li>
+            <li><a class="dropdown-item py-2" href="/profile"><i class="fa-regular fa-user me-2"></i>My Profile</a></li>
+            <li><a class="dropdown-item py-2" href="/listings/new"><i class="fa-regular fa-square-plus me-2"></i>Host a Room</a></li>
+            <li><hr class="dropdown-divider mx-2"></li>
+            <li><a class="dropdown-item py-2 text-danger" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Log out</a></li>
         <% } %>
-      </div>
+      </ul>
     </div>
+
   </div>
 </nav>

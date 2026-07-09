@@ -19,14 +19,19 @@ const listingSchema = new Schema({
     },
   },
   price: Number,
-    location: String,
-    country: String,
-    reviews: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Review"
-        }
-    ]
+  location: String,
+  country: String,
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review"
+    }
+  ],
+  // YEH VALI FIELD HUMNE ADD KI HAI
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  }
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

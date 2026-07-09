@@ -15,6 +15,11 @@ const reviewSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    // YEH VALI FIELD JODH DI HAI AUTHOR KA TRACK RAKHNE KE LIYE
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
 });
 
