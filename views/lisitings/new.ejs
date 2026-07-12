@@ -22,7 +22,6 @@
           required
         ></textarea>
         <div class="invalid-feedback">please enter correct description</div>
-        
       </div>
       <div class="mb-3">
         <label for="image" class="form-label">Image Link</label>
@@ -34,7 +33,6 @@
           required
         />
         <div class="invalid-feedback">enter valid url</div>
-        
       </div>
       <div class="row">
         <div class="mb-3 col-md-4">
@@ -44,7 +42,6 @@
             name="listing[price]"
             class="form-control"
             placeholder="1200"
-           
             required
           />
           <div class="invalid-feedback">price should be valid</div>
@@ -77,7 +74,17 @@
       </div>
       <div class="mb-3">
         <label for="contact" class="form-label">Contact Number</label>
-        <input type="number" name="listing[contact]" placeholder="Enter 10 digit number" class="form-control" maxlength ="10" pattern="\d{10}" title="please enter exactly 10 digits number" oninput="this.value.replace(/[^0-60-9]/g,'').slice(0,10);" required>
+        <input
+          type="text"
+          name="listing[contact]"
+          placeholder="Enter 10 digit number"
+          class="form-control"
+          maxlength="10"
+          pattern="\d{10}"
+          title="please enter exactly 10 digits number"
+          oninput="this.value.replace(/\D/g, '').slice(0, 10)"
+          required
+        />
       </div>
       <br /><br />
       <button type="submit" class="btn btn-dark add-btn">Add</button>

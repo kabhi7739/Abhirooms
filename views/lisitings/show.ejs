@@ -1,98 +1,124 @@
 <% layout("/layouts/boilerplate") %>
 <style>
-  /* Custom Star Rating Style */
-  .rating-css {
-    color: #ffe400;
-    font-size: 24px;
-    font-family: sans-serif;
-  }
+  /* Custom Star Rating Style Fix */
   .rating-css input {
     display: none;
   }
-  .rating-css input + label {
-    font-size: 30px;
-    text-shadow: 1px 1px 0 #ffe400;
+  .rating-css label {
+    color: #ccc; 
     cursor: pointer;
+    font-size: 30px;
+    margin: 0 2px;
+    transition: color 0.2s ease;
   }
-  .rating-css input:checked ~ input + label {
-    color: #ccc;
+  /* flex-row-reverse ki wajah se hover aur selection ekdum sahi chalega */
+  .rating-css input:checked ~ label,
+  .rating-css input:hover ~ label {
+    color: #ffc107 !important;
+  }
+  .rating-css label:hover ~ label {
+    color: #ffc107 !important;
   }
 </style>
 
-<div class="row mt-3">
-  <div class="col-8 offset-2">
+<div class="row mt-3 justify-content-center px-2">
+  <!-- Title Section -->
+  <div class="col-12 col-md-8 text-center text-md-start">
     <h3>Listing details :</h3>
   </div>
 
-  <div class="card col-6 offset-3 show-card">
-    <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image" />
-    <div class="card-body">
+  <!-- Main Listing Card -->
+  <div class="card col-12 col-md-8 show-card shadow-sm p-0 mb-4">
+    <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image" style="height: 40vh; object-fit: cover; border-radius: 0.5rem 0.5rem 0 0;" />
+    <div class="card-body p-3">
       <p class="card-text">
-        <b><%= listing.title %></b> <br>
-        <li><%= listing.description %></li> <br>
-        <li>&#8377;<%= listing.price.toLocaleString("en-IN") %></li><br>
-        <li><%= listing.location %></li><br>
-        <li><%= listing.country %></li>
+        <h4 class="mb-3"><b><%= listing.title %></b></h4>
+        <ul class="list-unstyled-custom fs-5">
+          <li class="mb-2"><i class="fa-solid fa-circle-info text-muted me-2"></i><%= listing.description %></li>
+          <li class="mb-2"><i class="fa-solid fa-indian-rupee-sign text-muted me-2"></i><%= listing.price.toLocaleString("en-IN") %> / night</li>
+          <li class="mb-2"><i class="fa-solid fa-location-dot text-muted me-2"></i><%= listing.location %></li>
+          <li class="mb-2"><i class="fa-solid fa-earth-americas text-muted me-2"></i><%= listing.country %></li>
+        </ul>
       </p>
     </div>
   </div>
 
-  <br />
-  
-  <!-- LISTING BUTTONS BLOCK -->
+  <!-- Admin/Owner Action Buttons -->
   <% if(currUser) { %>
-    <div class="btns offset-3 col-6 mb-3">
-      <% if((listing.owner && listing.owner._id.equals(currUser._id)) || currUser.username === 'abhiadmin') { %>
-        <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark edit-btn">Edit</a>
-        
-        <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" style="display: inline;" class="ms-3">
-          <button class="btn btn-danger">Delete</button>
+    <% if((listing.owner && listing.owner._id.equals(currUser._id)) || currUser.username === 'abhiadmin') { %>
+      <div class="col-12 col-md-8 d-flex justify-content-start gap-2 mb-4">
+        <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark edit-btn px-4">Edit</a>
+        <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" style="display: inline;">
+          <button class="btn btn-danger px-4">Delete</button>
         </form>
-      <% } %>
-    </div>
+      </div>
+    <% } %>
   <% } %>
 
-  <div class="col-6 offset-3 mb-3">
+  <!-- CONATCT SECTION (AB LOOP SE BAHAR HAI - MOBILE MEIN 100% WIDTH LEGA) -->
+  <div class="col-12 col-md-8 mb-4">
+    <div class="contact-section p-3 border rounded bg-light shadow-sm">
+        <h5 class="mb-3 text-start"><i class="fa-solid fa-address-book text-primary"></i> Interested in this room?</h5>
+        <p class="mb-3 text-start"><strong>Owner Number:</strong> +91 <%= listing.contact %></p>
+        
+        <div class="d-flex flex-column flex-sm-row gap-2">
+            <a href="tel:<%= listing.contact %>" class="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center gap-2">
+                <i class="fa-solid fa-phone"></i> Call Owner
+            </a>
+            <a href="https://wa.me/91<%= listing.contact %>?text=Hi,%20I%20am%20interested%20in%20your%20room%20'<%= listing.title %>'%20listed%20on%20AbhiRooms." 
+               target="_blank" 
+               class="btn btn-success w-100 py-2 d-flex align-items-center justify-content-center gap-2">
+                <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+            </a>
+        </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-8 mb-3">
     <hr />
     
     <!-- REVIEW FORM -->
     <% if(currUser) { %>
-        <h4>Leave a Review</h4>
+        <h4 class="mt-3">Leave a Review</h4>
         <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
           <div class="mb-3 mt-3">
             <label class="form-label">Rating</label>
             <div class="rating-css d-flex flex-row-reverse justify-content-end">
-              <input type="radio" value="5" name="review[rating]" id="rating5">
-              <label for="rating5" class="fa-solid fa-star"></label>
-              <input type="radio" value="4" name="review[rating]" id="rating4">
-              <label for="rating4" class="fa-solid fa-star"></label>
-              <input type="radio" value="3" name="review[rating]" id="rating3" checked>
-              <label for="rating3" class="fa-solid fa-star"></label>
-              <input type="radio" value="2" name="review[rating]" id="rating2">
-              <label for="rating2" class="fa-solid fa-star"></label>
-              <input type="radio" value="1" name="review[rating]" id="rating1">
-              <label for="rating1" class="fa-solid fa-star"></label>
+                <input type="radio" value="5" name="review[rating]" id="rating5">
+                <label for="rating5" class="fa-solid fa-star"></label>
+                <input type="radio" value="4" name="review[rating]" id="rating4">
+                <label for="rating4" class="fa-solid fa-star"></label>
+                <input type="radio" value="3" name="review[rating]" id="rating3">
+                <label for="rating3" class="fa-solid fa-star"></label>
+                <input type="radio" value="2" name="review[rating]" id="rating2">
+                <label for="rating2" class="fa-solid fa-star"></label>
+                <input type="radio" value="1" name="review[rating]" id="rating1">
+                <label for="rating1" class="fa-solid fa-star"></label>
             </div>
           </div>
           <div class="mb-3 mt-3">
             <label for="comment" class="form-label">Comments</label>
-            <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
+            <textarea name="review[comment]" id="comment" cols="30" rows="4" class="form-control" required></textarea>
             <div class="invalid-feedback">Please submit some comments for review</div>
           </div>
-          <button class="btn btn-outline-dark">Submit</button>
+          <button class="btn btn-outline-dark px-4">Submit</button>
         </form>
         <hr />
     <% } %>
 
-    <h4>All Reviews</h4>
-    <div class="row">
+    <!-- ALL REVIEWS SHOW SECTION -->
+    <h4 class="mt-4">All Reviews</h4>
+    <div class="row px-2">
+      <% if(listing.reviews.length === 0) { %>
+        <p class="text-muted ps-2">No reviews yet.</p>
+      <% } %>
+      
       <% for(let review of listing.reviews) { %>
-        <div class="card col-5 ms-3 mb-3 p-3">
+        <div class="card col-12 col-md-5 m-2 p-3 border shadow-sm">
           <div class="card-body">
-            <h5>@<%= review.author?.username || "Anonymous" %></h5>
-            <p class="card-text"><%= review.comment %></p>
+            <h5 class="card-title">@<%= review.author?.username || "Anonymous" %></h5>
             
-            <p class="card-text text-warning">
+            <p class="card-text text-warning my-2">
               <% for(let i=1; i<=5; i++) { %>
                 <% if(i <= review.rating) { %>
                   <i class="fa-solid fa-star"></i>
@@ -101,33 +127,16 @@
                 <% } %>
               <% } %>
             </p>
-            <div class="contact-section mt-4 p-3 border rounded bg-light">
-    <h5 class="mb-3"><i class="fa-solid fa-address-book text-primary"></i> Interested in this room?</h5>
-    <p class="mb-2"><strong>Owner Number:</strong> +91 <%= listing.contact %></p>
-    
-    <div class="d-flex gap-2">
-        <!-- Direct Mobile Call Button -->
-        <a href="tel:<%= listing.contact %>" class="btn btn-primary">
-            <i class="fa-solid fa-phone"></i> Call Owner
-        </a>
-        
-        <!-- Direct WhatsApp Chat Button with Pre-filled Message -->
-        <a href="https://wa.me/91<%= listing.contact %>?text=Hi,%20I%20am%20interested%20in%20your%20room%20'<%= listing.title %>'%20listed%20on%20AbhiRooms." 
-           target="_blank" 
-           class="btn btn-success">
-            <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
-        </a>
-    </div>
-</div>
-            <!-- REVIEW DELETE BUTTON FOR OWNER AND ADMIN -->
+            
+            <p class="card-text text-secondary mb-3"><%= review.comment %></p>
+            
             <% if(currUser) { %>
               <% if(currUser.username === 'abhiadmin' || (review.author && review.author._id.equals(currUser._id))) { %>
-                <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-                  <button class="btn btn-sm btn-dark">Delete</button>
+                <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" class="m-0">
+                  <button class="btn btn-sm btn-dark px-3">Delete</button>
                 </form>
               <% } %>
             <% } %>
-
           </div>
         </div>
       <% } %>

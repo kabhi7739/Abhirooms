@@ -125,3 +125,85 @@ body{
     color: #ff385c !important; /* Premium Red/Magenta look */
     font-weight: 900 !important; /* Regular icon se Solid icon ban banane ke liye */
 }
+/* stars ko sahi karne ka */
+/* Radio buttons ko chhupane ke liye */
+.rating-css input {
+    display: none;
+}
+
+/* Default state: jab koi star select na ho (Grey ya Light Blue color) */
+.rating-css label {
+    color: #ccc; 
+    cursor: pointer;
+    font-size: 30px;
+    margin: 0 2px;
+    transition: color 0.2s ease;
+}
+
+/* Jab click ho ya hover ho, toh yellow color ho jaye */
+.rating-css input:checked ~ label,
+.rating-css input:hover ~ label {
+    color: #ffc107 !important; /* Mast Pila (Yellow) Color */
+}
+
+/* Hover karne par smooth transition */
+.rating-css label:hover ~ label {
+    color: #ffc107 !important;
+}
+ /* mobile responsive */
+ /* Mobile Devices ke liye special adjustments */
+@media (max-width: 768px) {
+    .rating-css label {
+        font-size: 25px; /* Mobile par stars ka size thoda adjust kiya */
+    }
+    
+    .btn {
+        width: 100%; /* Mobile par buttons full width ho jayein taaki achhe dikhein */
+        margin-bottom: 10px;
+    }
+    
+    body {
+        padding: 0 10px; /* Purane page content ko side se chipakne se rokega */
+    }
+}
+@media (max-width: 576px) {
+    .contact-section {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+/* hover effect on card */
+/* Card ki basic style aur smooth transition animation ke liye */
+.card {
+    border: none !important;
+    margin-bottom: 2rem;
+    background-color: #fff;
+    border-radius: 1rem !important; /* Card ke corners smooth karne ke liye */
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+/* 🔥 Hover Effect: Card thoda upar uthega aur shadow gahri ho jayegi */
+.card:hover {
+    transform: translateY(-8px); /* Card ko 8px upar ki taraf lift karega */
+    box-shadow: 0 14px 28px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.12) !important;
+}
+
+/* Image par bhi halka sa smooth transition visual upgrade ke liye */
+.card-img-top {
+    border-radius: 1rem 1rem 0 0 !important;
+    width: 100% !important;
+    object-fit: cover !important;
+    transition: opacity 0.3s ease;
+}
+[9:24 pm, 12/07/2026] क्षत्रिय: }
+[9:26 pm, 12/07/2026] क्षत्रिय: /* Card ke andar wale text aur button ko left aur right se gap dene ke liye */
+.card-body {
+    padding: 0.5rem 0.8rem !important; /* Upar-niche se halka gap, left-right se achha gap */
+}
+
+/* Agar tum chahte ho ki button aur text ke bich me thoda space rahe */
+.card-body .btn {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}

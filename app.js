@@ -190,10 +190,10 @@ app.delete("/listings/:id/reviews/:reviewId", isLoggedIn, wrapAsync(async (req, 
 // create route (CLEAN VERSION FOR SCHEMA MODIFIER & OWNER)
 app.post("/listings", isLoggedIn, wrapAsync(async (req, res, next) => {
     // 1. Pure form ka data nikalna
-    let { title, description, price, location, country, image } = req.body.listing;
+    let { title, description, price, location, country, image, contact } = req.body.listing;
 
     // 2. Naya Listing create karna
-    const newListing = new Listing({ title, description, price, location, country });
+    const newListing = new Listing({ title, description, price, location, country , contact });
 
     // 3. User ID ko owner field me map karna
     newListing.owner = req.user._id;
